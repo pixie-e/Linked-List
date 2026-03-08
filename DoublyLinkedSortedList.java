@@ -14,26 +14,11 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 		this.tail = null;
 	}
 
-	/*
-	instead of this
-	public void addRowData(T row){ dataList.add(row); }
-	write code so that DoubLinkSortList can take in the filename and
-	read all the data from file directly into itself, instead of relying
-	on Main feeding it one row at a time.
-	*/
 	public void readData(File file)
 	{
 		// try to write the file data into new objects for each row of data
 		try 
 		{	Scanner read = new Scanner(file);
-			/*
-			instead of this
-			public void addRowData(HurricaneRowData row){ dataList.add(row); }
-			write code so that HurricaneDataList can take in the filename and
-			read all the data from file directly into itself, instead of relying
-			on Main feeding it one row at a time.
-			*/
-			//call
 			// strip the first line (contains chart header/categories not data)
 			read.nextLine();
 			// while there is still at least one value left next, 
@@ -127,14 +112,19 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 			tail = toInsert;
 			return;
 		}
-		else
+		else {
+	        toInsert.setNext(head);
+	        head.setPrevious(toInsert);
+	        head = toInsert;
+	    }
+		/*else
 		{
 			Node lastNode = getLast();
 			
 			toInsert.setPrevious(lastNode);
 			lastNode.setNext(toInsert);
 
-		}
+		}*/
 		//incomplete pseudocode. You need to finish it and make sure it is solid
 		// DO NOT ASSUME THIS IS CORRECT YET
 		//compare ace of newValue to ace of FIRST IN LIST

@@ -71,7 +71,7 @@ public class Main
 	public static void main(String[] args)
 	{
 		// instantiate a HurricaneDataList array-list via its constructor
-		DoublyLinkedSortedList<HurricaneRowData> rowData = new DoublyLinkedSortedList<HurricaneRowData>();
+		DoublyLinkedSortedList rowData = new DoublyLinkedSortedList();
 		/*
 		instead of this
 		public void addRowData(HurricaneRowData row){ dataList.add(row); }
@@ -80,9 +80,9 @@ public class Main
 		on Main feeding it one row at a time.
 		*/
 		File hurricaneData = new File("ace.csv");
-		Scanner reader = new Scanner(hurricaneData);
+		
 		//call
-		rowData.readData(reader);
+		rowData.readData(hurricaneData);
 
 		/*
 		// try to write the file data into new objects for each row of data

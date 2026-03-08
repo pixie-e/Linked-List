@@ -1,11 +1,10 @@
 import java.util.Scanner;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-public class DoublyLinkedSortedList<T> implements DoublyLinkedSortedListInterface<T>
+public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 {
-	private Node<T> head;
-	private Node<T> tail;
+	private Node head;
+	private Node tail;
 	private int length = 0;
 	
 	// Constructor
@@ -22,11 +21,11 @@ public class DoublyLinkedSortedList<T> implements DoublyLinkedSortedListInterfac
 	read all the data from file directly into itself, instead of relying
 	on Main feeding it one row at a time.
 	*/
-	public void readData(Scanner read)
+	public void readData(File file)
 	{
 		// try to write the file data into new objects for each row of data
 		try 
-		{
+		{	Scanner read = new Scanner(file);
 			/*
 			instead of this
 			public void addRowData(HurricaneRowData row){ dataList.add(row); }
@@ -81,7 +80,7 @@ public class DoublyLinkedSortedList<T> implements DoublyLinkedSortedListInterfac
 	}
 
 	//Return a reference to the first Node in the list
-	public Node<T> getFirst()
+	public Node getFirst()
 	{
 		/*
 		if (this == null)
@@ -98,7 +97,7 @@ public class DoublyLinkedSortedList<T> implements DoublyLinkedSortedListInterfac
 	} // END getFirst method
 	
 	//Return a reference to the last Node in the list
-	public Node<T> getLast()
+	public Node getLast()
 	{
 		/*
 		Node<T> current = this.getData();
@@ -112,15 +111,15 @@ public class DoublyLinkedSortedList<T> implements DoublyLinkedSortedListInterfac
 	} // END getLast method
 	
 	//Remove the Node that has toRemove as its value
-	public Node<T> remove(T toRemove)
+	public Node remove(HurricaneRowData toRemove)
 	{
 		return null; //placeholder setup
 	} // END remove method
 	
 	//Insert a new Node with the given newValue into the list in order.
-	public void insert(T dataToInsert)
+	public void insert(HurricaneRowData dataToInsert)
 	{
-		Node<dataToInsert> toInsert = new Node<dataToInsert>();
+		Node toInsert = new Node(dataToInsert);
 		//CORNER CASE: List is empty; start with the first insertion
 		if (head == null)
 		{
@@ -130,7 +129,7 @@ public class DoublyLinkedSortedList<T> implements DoublyLinkedSortedListInterfac
 		}
 		else
 		{
-			Node<T> lastNode = getLast();
+			Node lastNode = getLast();
 			
 			toInsert.setPrevious(lastNode);
 			lastNode.setNext(toInsert);

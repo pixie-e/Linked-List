@@ -56,12 +56,7 @@ public class HurricaneRowData
 	 * @param majorHurricanes number of major hurricanes (categories 3-5) that
 	 * occurred in that year
 	 */
-	// the constructor for HurricaneRowData could be adjusted so that it
-	// uses setter methods for each of its parameters instead,
-	// in the case that you might want to edit the data by setting
-	// a value to something else (most likely not a desired situation as
-	// the data shouldn't be altered). I might make this adjustment anyways
-	// if I have time to come back to it, but this is its current state:
+	
 	public HurricaneRowData(int year, int aceValue, int tropicalStorms, 
 								int totalHurricanes, int majorHurricanes)
 	{

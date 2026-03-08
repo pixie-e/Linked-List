@@ -1,21 +1,22 @@
 public class Node<T>
 {
-	private T value = null;
-	private Node<T> head = null;
-	private Node<T> tail = null;
+	
+	private T data;
+	private Node<T> next = null;
+	private Node<T> prev = null;
 
-	public Node(T value)
+	public Node(T data)
 	{
-		this.value = value;
-		this.head = head;
-		this.tail = tail;
+		this.data = data;
+		this.next = null;
+		this.prev = null;
 	}
 
-	public T getValue() { return value; }
-	public void setNext(Node<T> next) { this.head = next; } 
-	public Node<T> getNext() { return head; }	
-	public boolean hasNext() { return head != null; }
-	public void setPrevious(Node<T> previous) { this.tail = previous; } 
-	public Node<T> getPrevious() { return tail; }	
-	public boolean hasPrevious() { return tail != null; }
+	public T getData() { return this.data; }
+	public void setNext(Node<T> next) { this.next = next; } 
+	public Node<T> getNext() { return next; }	
+	public boolean hasNext() { return next != null; }
+	public void setPrevious(Node<T> prev) { this.prev = prev; } 
+	public Node<T> getPrevious() { return prev; }	
+	public boolean hasPrevious() { return prev != null; }
 } // END Node class

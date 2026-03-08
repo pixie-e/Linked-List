@@ -71,46 +71,25 @@ public class Main
 	public static void main(String[] args)
 	{
 		// instantiate a HurricaneDataList array-list via its constructor
-		HurricaneDataList rowData = new HurricaneDataList();
+		DoublyLinkedSortedList<HurricaneRowData> rowData = new DoublyLinkedSortedList<HurricaneRowData>();
+		/*
+		instead of this
+		public void addRowData(HurricaneRowData row){ dataList.add(row); }
+		write code so that HurricaneDataList can take in the filename and
+		read all the data from file directly into itself, instead of relying
+		on Main feeding it one row at a time.
+		*/
+		File hurricaneData = new File("ace.csv");
+		Scanner reader = new Scanner(hurricaneData);
+		//call
+		rowData.readData(reader);
 
+		/*
 		// try to write the file data into new objects for each row of data
 		try 
 		{
-			File hurricaneData = new File("ace.csv");
-			Scanner read = new Scanner(hurricaneData);
-			// strip the first line (contains chart header/categories not data)
-			read.nextLine();
-			// while there is still at least one value left next, 
-			// continue to read values into a new HurricaneRowData object
-			while(read.hasNext())
-			{
-				String line = read.nextLine();
-				String[] values = line.split(","); 
-				// setting each variable at a specific index, and with only
-				// up to 5 indices for the array all together
-				// is not good or flexible because it demands that the data be
-				// organized exactly in the order I have indexed in the array,
-				// and that the data only contains these 5 following values,
-				// in this exact order every time, every row.
-				int year = Integer.parseInt(values[0]);
-				int aceValue = Integer.parseInt(values[1]);
-				int tropicalStorms = Integer.parseInt(values[2]);
-				int totalHurricanes = Integer.parseInt(values[3]);
-				int majorHurricanes = Integer.parseInt(values[4]);
-				// creates row of data as its own new object
-				HurricaneRowData temp = new HurricaneRowData(year, aceValue, 
-							tropicalStorms, totalHurricanes, majorHurricanes);
-				// add the new object of the row of data into an array list
-				rowData.addRowData(temp); // array list contained in
-										  // "HurricaneDataList.java"
-			}
-			read.close(); // close the Scanner
-			// for testing, can use any index to check, with 0= data line 1:
-			// System.out.println((rowData.getRowData(0)).toString());
-
-			// for testing the getMaxAceYear method which is
-			// currently named getRowWithMaxAce
-			//System.out.println("Max Ace Year: "+getMaxAceYear(rowData));
+			
+			
 		}
 		// catch IOException for reading the file
 		catch (IOException e)
@@ -120,7 +99,9 @@ public class Main
 			e.printStackTrace();
 			System.exit(1);
 		}
-		// try to write the max ACE index value and its year out to a text file
+		*/
+
+		/* try to write the max ACE index value and its year out to a text file
 		try 
 		{
 			FileWriter writer = new FileWriter("maxAce.txt");
@@ -146,6 +127,7 @@ public class Main
 			(rowData.getRowData(getRowWithMaxAce(rowData))).getYear()+
 			", ACE Index: "+
 			(rowData.getRowData(getRowWithMaxAce(rowData))).getAceValue());
+		*/
 
 	} // END main method
 
@@ -160,6 +142,7 @@ public class Main
 	 * @return rowOfHighestAce which is the index in the array-list where 
 	 * the max ACE index occurs amongst the row data objects
 	 */
+	/*
 	public static int getRowWithMaxAce(HurricaneDataList rowData)
 	{
 		// initializing variables
@@ -185,5 +168,5 @@ public class Main
 		// for testing:
 		// return yearOfHighestAce
 	} // END getMaxAceYear method
-
+	*/
 } // END Main class

@@ -1,14 +1,113 @@
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 public class DoublyLinkedSortedList<T> implements DoublyLinkedSortedListInterface<T>
 {
+	private Node<T> head;
+	private Node<T> tail;
+	private int length = 0;
+	
+	// Constructor
+	public DoublyLinkedSortedList()
+	{
+		this.head = null;
+		this.tail = null;
+	}
+
+	/*
+	instead of this
+	public void addRowData(T row){ dataList.add(row); }
+	write code so that DoubLinkSortList can take in the filename and
+	read all the data from file directly into itself, instead of relying
+	on Main feeding it one row at a time.
+	*/
+	public void readData(Scanner read)
+	{
+		// try to write the file data into new objects for each row of data
+		try 
+		{
+			/*
+			instead of this
+			public void addRowData(HurricaneRowData row){ dataList.add(row); }
+			write code so that HurricaneDataList can take in the filename and
+			read all the data from file directly into itself, instead of relying
+			on Main feeding it one row at a time.
+			*/
+			//call
+			// strip the first line (contains chart header/categories not data)
+			read.nextLine();
+			// while there is still at least one value left next, 
+			// continue to read values into a new HurricaneRowData object
+			while(read.hasNext())
+			{
+				String line = read.nextLine();
+				String[] values = line.split(","); 
+				// setting each variable at a specific index, and with only
+				// up to 5 indices for the array all together
+				// is not good or flexible because it demands that the data be
+				// organized exactly in the order I have indexed in the array,
+				// and that the data only contains these 5 following values,
+				// in this exact order every time, every row.
+				int year = Integer.parseInt(values[0]);
+				int aceValue = Integer.parseInt(values[1]);
+				int tropicalStorms = Integer.parseInt(values[2]);
+				int totalHurricanes = Integer.parseInt(values[3]);
+				int majorHurricanes = Integer.parseInt(values[4]);
+				// creates row of data as its own new object
+				HurricaneRowData temp = new HurricaneRowData(year, aceValue, 
+							tropicalStorms, totalHurricanes, majorHurricanes);
+				// add the new object of the row of data into an array list
+				insert(temp); // array list contained in
+										  // "HurricaneDataList.java"
+			}
+			read.close(); // close the Scanner
+			// for testing, can use any index to check, with 0= data line 1:
+			// System.out.println((rowData.getRowData(0)).toString());
+
+			// for testing the getMaxAceYear method which is
+			// currently named getRowWithMaxAce
+			//System.out.println("Max Ace Year: "+getMaxAceYear(rowData));
+				
+		}
+		// catch IOException for reading the file
+		catch (IOException e)
+		{
+			System.out.println("ERROR:something went wrong when reading file");
+			System.out.println(e);
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
 	//Return a reference to the first Node in the list
 	public Node<T> getFirst()
 	{
+		/*
+		if (this == null)
+			return null;
+		Node<T> current = this.getData();
+		//i think this won't work because the first inserted refers to itself as head. it is not null
+		while (current.hasPrevious())
+		{
+			current = current.getPrevious();
+		}
+		return current; //placeholder setup
+		*/
 		return null; //placeholder setup
 	} // END getFirst method
 	
 	//Return a reference to the last Node in the list
 	public Node<T> getLast()
 	{
+		/*
+		Node<T> current = this.getData();
+		while (current.hasNext())
+		{
+			current = current.getNext();
+		}
+		return current; //placeholder setup
+		*/
 		return null; //placeholder setup
 	} // END getLast method
 	
@@ -19,14 +118,99 @@ public class DoublyLinkedSortedList<T> implements DoublyLinkedSortedListInterfac
 	} // END remove method
 	
 	//Insert a new Node with the given newValue into the list in order.
-	public void insert(T newValue)
+	public void insert(T dataToInsert)
 	{
-		//
+		Node<dataToInsert> toInsert = new Node<dataToInsert>();
+		//CORNER CASE: List is empty; start with the first insertion
+		if (head == null)
+		{
+			head = toInsert;
+			tail = toInsert;
+			return;
+		}
+		else
+		{
+			Node<T> lastNode = getLast();
+			
+			toInsert.setPrevious(lastNode);
+			lastNode.setNext(toInsert);
+
+		}
+		//incomplete pseudocode. You need to finish it and make sure it is solid
+		// DO NOT ASSUME THIS IS CORRECT YET
+		//compare ace of newValue to ace of FIRST IN LIST
+		// if new > head, insert new as first's head and first is new's tail
+		// 								else if new < first (and list only contains first), insert new as first's head
+		// ( new < current node) WHILE current node hasNext , 
+		// iterate through list and compare new to this node
+		// if and until new > this node then insert new as this node's head and this node is new's tail
+		// otherwise new is never more than an item already in the list, insert it at the very end
+		//int newAce = newValue.getAceValue();
+
+		
 	} // END insert method
 	
 	//Return the entire list as a multi-line String
+	@Override
 	public String toString()
 	{
 		return "placeholder";
+
+		/* 3/5/26 live demo
+		@Override
+		public String toString()
+		{
+			String s = "";
+			// if empty
+			if (head == null)
+				return s;
+			//otherwise not empty
+			Node n = head;
+			s += n.toString();
+			while (n.hasNext)
+			{
+				n = n.getNext();
+				s += n.toString();
+			}
+			
+
+			return s;
+		}
+		*/
 	} // END toString method
+
+	/* Extras for if you want to include a list length counter 
+	//TAKEN FROM 5400_singly_linked_list
+	public int getLength()
+	{
+		//checking it isn't length 0/null
+		if(start == null)
+			return 0;
+		// like getLast but counts up all the nexts until reaches end
+		Node<T> current = start;
+		int count = 1;
+		while(current.hasNext()){
+			current = current.getNext();
+			count++;
+		}
+		return count;
+	}
+
+	//TAKEN FROM 5400_singly_linked_list_SKIP THIS
+	// like a line, first person says "i'm 1", next person says
+	// i'm next, I take your 1 and add mine, and onwards
+	//(i see your two, add one for me, now i'm 3)
+	public int getLength()
+	{
+		if(data == null)
+		{
+			return 0;
+		}
+		if(!hasNext())
+		{
+			return 1;
+		}
+		return 1 + next.getLength();
+	}
+	*/
 } // END DoublyLinkedSortedList class

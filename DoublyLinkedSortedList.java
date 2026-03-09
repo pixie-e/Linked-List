@@ -1,3 +1,25 @@
+/**
+ * Assignment 8: Linked List (Hurricane Data)
+ * @author Elysium "Pixie" Jones
+ * 3/8/26
+ * 
+ * Instructions: create a doubly-linked, self-sorting list that can be used in
+ * place of the ArrayList used in the Hurricane assignment. Then, write 2 test
+ * methods for your DoublyLinkedSortedList. These methods should each test a
+ * different aspect of the correctness of the doubly linked list implementation.
+ * The test methods are: testLength and testLowestInsertion, and get called
+ * in Main.
+ * 
+ * Source(s):
+ * Original Hurricane Data: N/A - DoublyLinkedSortedList was not in original
+ * Linked List Hurricane Data:
+ * <a href="https://www.geeksforgeeks.org/dsa/introduction-to-doubly-linked-lists-in-java/">This site helped me somewhat with doubly-linked lists. I definitely faced a learning curve.</a>
+ * 
+ * Notes: method toRemove from interface is never implemented in this program,
+ * but I left it because I simply ran out of time and was unsure if it was
+ * required to be included or not. toRemove only returns null.
+ */
+
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +34,16 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 	{
 		this.head = null;
 		this.tail = null;
+		this.length = length;
 	}
 
+	/**
+	 * Take an already prepared File to read in the hurricane row data
+	 * as individual objects per row, then insert them into the
+	 * doubly-linked list
+	 * 
+	 * @param file file to read in
+	 */
 	public void readData(File file)
 	{
 		// try to write the file data into new objects for each row of data
@@ -41,18 +71,10 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 				// creates row of data as its own new object
 				HurricaneRowData temp = new HurricaneRowData(year, aceValue, 
 							tropicalStorms, totalHurricanes, majorHurricanes);
-				// add the new object of the row of data into an array list
-				insert(temp); // array list contained in
-										  // "HurricaneDataList.java"
+				// add the new data into the doubly-linked list
+				insert(temp);
 			}
 			read.close(); // close the Scanner
-			// for testing, can use any index to check, with 0= data line 1:
-			// System.out.println((rowData.getRowData(0)).toString());
-
-			// for testing the getMaxAceYear method which is
-			// currently named getRowWithMaxAce
-			//System.out.println("Max Ace Year: "+getMaxAceYear(rowData));
-				
 		}
 		// catch IOException for reading the file
 		catch (IOException e)
@@ -64,48 +86,50 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 		}
 	}
 
-	//Return a reference to the first Node in the list
+	/**
+	 * Return a reference to the first Node in the list
+	 * 
+	 * @return the first Node in the list
+	 */
 	public Node getFirst()
 	{
-		/*
 		if (this == null)
 			return null;
-		Node<T> current = this.getData();
-		//i think this won't work because the first inserted refers to itself as head. it is not null
-		while (current.hasPrevious())
-		{
-			current = current.getPrevious();
-		}
-		return current; //placeholder setup
-		*/
-		return null; //placeholder setup
+		return head;
 	} // END getFirst method
 	
-	//Return a reference to the last Node in the list
+	/**
+	 * Return a reference to the last Node in the list
+	 * 
+	 * @return the last Node in the list
+	 */
 	public Node getLast()
 	{
-		/*
-		Node<T> current = this.getData();
-		while (current.hasNext())
-		{
-			current = current.getNext();
-		}
-		return current; //placeholder setup
-		*/
-		return null; //placeholder setup
+		if (this == null)
+			return null;
+		return tail;
 	} // END getLast method
 	
 	//Remove the Node that has toRemove as its value
+	/*Note this was never implemented, nor written. I ran out of time and did
+	not find a purpose for this method despite it being included in the
+	interface. I wasn't sure if it was required to be kept or not.
+	I would've taken it out otherwise.
+	*/
 	public Node remove(HurricaneRowData toRemove)
 	{
 		return null; //placeholder setup
 	} // END remove method
 	
-	//Insert a new Node with the given newValue into the list in order.
+	/**
+	 * Insert a new Node with the given newValue into the list in order.
+	 * 
+	 * @param dataToInsert the HurricaneRowObject that will be inserted in list
+	 */
 	public void insert(HurricaneRowData dataToInsert)
 	{
 		Node toInsert = new Node(dataToInsert);
-		//CORNER CASE: List is empty; start with the first insertion
+		//CHECK CASE: List is empty; start with the first insertion
 		if (head == null)
 		{
 			head = toInsert;
@@ -127,151 +151,141 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 	        return;
 	        
 	    }
-	    //CASE that head/tail is only item in list, and toInsert was
-	    //already checked and failed for greater ACE, make toInsert as new tail
+	    //CHECK CASE that head is only item in list, and toInsert was
+	    //already checked and failed for greater ACE, make toInsert new tail
 	    else if (!head.hasNext())
 	    {
-	    	head.setNext(toInsert);
-	    	toInsert.setPrevious(head);
-	    	//System.out.println(toInsert.getData());
-	    	tail = toInsert;
+	    	head.setNext(toInsert); //update head's next toInsert
+	    	toInsert.setPrevious(head); //toInsert's previous is now head
+	    	tail = toInsert; //tail is now toInsert
 	    	length++;
 	    	return;
 	    }
+	    /*List should have at least two items in it, so set currentNode to 
+		head and check current's next. Iterate over list until there is no
+		next (tail is reached).
+		*/
 	    Node currentNode = head;
 	    while (currentNode.hasNext())
 	    {
-	    	//System.out.println("loop entered");
-	    	//currentNode = currentNode.getNext();
+	    	/*
+	    	This step seems somewhat unnecessary but is a holdover from when I
+	    	was trying to solve the logical issue mentioned in Notes (see
+	    	header). Check if toInsert ACE is the same as current's ACE, and
+	    	if they are the same insert toInsert behind current (this way
+	    	years will also be in order, i.e. 1960 was written first but
+	    	1985's ACE matches, so it gets sorted behind 1960). 
+	    	*/
 	    	if (toInsert.getData().getAceValue() == currentNode.getData().getAceValue())
 	    	{
-	    		//should be safe as loop would not enter if there were no next
-	    		Node afterNode = currentNode.getNext();
-	    		toInsert.setNext(afterNode);
-	    		toInsert.setPrevious(currentNode);
-	    		afterNode.setPrevious(toInsert);
-	    		currentNode.setNext(toInsert);
+	    		//should be safe as loop would not enter if there was not a next
+	    		Node afterNode = currentNode.getNext(); //Node behind current
+	    		toInsert.setNext(afterNode); //toInsert's next is after
+	    		toInsert.setPrevious(currentNode);//toInsert's prev is current
+	    		afterNode.setPrevious(toInsert);//after's prev updates toInsert
+	    		currentNode.setNext(toInsert);//current's next updates toInsert
 	    		length++;
 	    		return;
 	    	}
+	    	/*Check if toInsert's ACE is greater than current's ACE, and if
+	    	it is greater insert toInsert ahead of current*/
 	    	else if (toInsert.getData().getAceValue() > currentNode.getData().getAceValue())
 	    	{	
-	    		Node beforeNode = currentNode.getPrevious();
-	    		toInsert.setPrevious(beforeNode);
-	    		toInsert.setNext(currentNode);
-	    		beforeNode.setNext(toInsert);
-	    		currentNode.setPrevious(toInsert);
+	    		Node beforeNode = currentNode.getPrevious();//Node ahead of current
+	    		toInsert.setPrevious(beforeNode); //toInsert's prev is before
+	    		toInsert.setNext(currentNode); //toInsert's next is current
+	    		beforeNode.setNext(toInsert); //before's next is toInsert
+	    		currentNode.setPrevious(toInsert); //current's prev is toInsert
 	    		length++;
-	    		//System.out.println("Loop + "+currentNode.getData());
-	    		//currentNode = tail; //skip to tail to exit loop
-	    							//(tail has no next)
 	    		return;
 	    	}
 	    	currentNode = currentNode.getNext();
 	    }
+	    //otherwise, all other conditions have failed which means all that
+	    //is left is the tail, so update the tail and its links.
 	    tail.setNext(toInsert);
 	    toInsert.setPrevious(tail);
 	    tail = toInsert;
 	    length++;
-	   // System.out.println(tail.getData());
-
-	    
-		
-		//incomplete pseudocode. You need to finish it and make sure it is solid
-		// DO NOT ASSUME THIS IS CORRECT YET
-		//compare ace of newValue to ace of FIRST IN LIST
-		// if new > head, insert new as first's head and first is new's tail
-		// 								else if new < first (and list only contains first), insert new as first's head
-		// ( new < current node) WHILE current node hasNext , 
-		// iterate through list and compare new to this node
-		// if and until new > this node then insert new as this node's head and this node is new's tail
-		// otherwise new is never more than an item already in the list, insert it at the very end
-		//int newAce = newValue.getAceValue();
-
-		
 	} // END insert method
 	
-	//Return the entire list as a multi-line String
+	/**
+	 * Return the entire list as a multi-line String
+	 * 
+	 * @return doubly-linked list of HurricaneRowData
+	 */
 	@Override
 	public String toString()
 	{
-		return "placeholder";
-
-		/* 3/5/26 live demo
-		@Override
-		public String toString()
-		{
-			String s = "";
-			// if empty
-			if (head == null)
-				return s;
-			//otherwise not empty
-			Node n = head;
-			s += n.toString();
-			while (n.hasNext)
-			{
-				n = n.getNext();
-				s += n.toString();
-			}
-			
-
+		// 3/5/26 live demo by Neal Holtschulte
+		String s = "";
+		// if empty
+		if (head == null)
 			return s;
+		//otherwise not empty
+		Node n = head;
+		s += n.getData().toString();
+		while (n.hasNext())
+		{
+			n = n.getNext();
+			s += n.getData().toString();
 		}
-		*/
-	} // END toString method
+		return s;
+		
+	} // END overridden toString method
 
-	/* Extras for if you want to include a list length counter 
-	//TAKEN FROM 5400_singly_linked_list
-	public int getLength()
+	/**
+	 * testLength checks if the length counted of the list matches the number
+	 * of rows of data from the original input file
+	 * 
+	 * @param expectedLength is the int value representing the total length/
+	 * number of rows from the original input file
+	 * 
+	 * @return boolean if the lengths match or not
+	 */
+	public boolean testLength(int expectedLength)
 	{
-		//checking it isn't length 0/null
-		if(start == null)
-			return 0;
-		// like getLast but counts up all the nexts until reaches end
-		Node<T> current = start;
-		int count = 1;
-		while(current.hasNext()){
-			current = current.getNext();
-			count++;
-		}
-		return count;
+		return length == expectedLength;
 	}
 
-	//TAKEN FROM 5400_singly_linked_list_SKIP THIS
-	// like a line, first person says "i'm 1", next person says
-	// i'm next, I take your 1 and add mine, and onwards
-	//(i see your two, add one for me, now i'm 3)
-	public int getLength()
+	/**
+	 * testLowestInsertion checks if a very low ACE value (the lowest possible
+	 * for a given list) correctly sorts to be the last item in the list
+	 * 
+	 * @param testLowAce a HurricaneRowData object containing a low ACE to
+	 * be inserted into the list
+	 * 
+	 * @return boolean if the low ACE was correctly sorted to be the last
+	 * in the list.
+	 */
+	public boolean testLowestInsertion(HurricaneRowData testLowAce)
 	{
-		if(data == null)
-		{
-			return 0;
-		}
-		if(!hasNext())
-		{
-			return 1;
-		}
-		return 1 + next.getLength();
+		insert(testLowAce);
+		return (getLast().getData()) == (testLowAce);
+		
 	}
-	*/
 
+	/* commented out if needed for testing again later
 	public void printNodesByNext()
 	{
+		System.out.println("\nBY NEXT:");
 		Node printNode = head;
 	    for (int i=0; i<length; i++)
 	    {
-	    	System.out.println(printNode.getData());
+	    	System.out.print(printNode.getData());
 	    	printNode = printNode.getNext();
 	    }
 	}
 	public void printNodesByPrevious()
 	{
+		System.out.println("\nBY PREVIOUS");
 		Node printNode = tail;
 	    for (int i=0; i<length; i++)
 	    {
-	    	System.out.println(printNode.getData());
+	    	System.out.print(printNode.getData());
 	    	printNode = printNode.getPrevious();
 	    }
 	}
+	*/
 
 } // END DoublyLinkedSortedList class

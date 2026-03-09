@@ -1,26 +1,29 @@
 /**
- * Assignment 3: Hurricane Data
+ * Assignment 8: Linked List (Hurricane Data)
  * @author Elysium "Pixie" Jones
- * 1/30/26
+ * 3/8/26
  * 
  * Purpose: Creates a HurricaneRowData object with its own private instance
  * variables for the year of record, ACE index value, number of tropical storms
  * in that year, total number of hurricanes in that year, and number of major 
  * hurricanes (categories 3-5) in that year. Also has getter methods for a
  * HurricaneRowData's year and ACE index value, and overridden toString method
- * for writing the year and ACE index value out. The other data categories 
- * are not needed for the stated purpose in Main, but they can be included
- * in the same manner year and ACE index are if wanted.
+ * for writing the data out. 
  * 
- * Given Instructions:
+ * Given Instructions (Original assignment, not Linked List):
  * HurricaneRowData must have 5 private instance variables (one for each of the
  * columns of data in ace.csv). The class must also have a constructor and a 
  * toString method. You should add any getter or setter methods that you need.
  * 
  * Source(s):
+ * Original Hurricane Data:
  * I used /2260_all_content/module10_objects_and_fileio/070_fileio_unemployment
  * /object_oriented/Unemployment.java as a reference for setting the 
  * HurricaneRowData class up
+ * Linked List Hurricane Data:
+ * 
+ * Notes: The only thing that has changed in this version compared to the
+ * original Assignment 3 is the formatting for the toString.
  */
 
 
@@ -82,16 +85,17 @@ public class HurricaneRowData
 	public int getAceValue() { return this.aceValue; }
 
 	/**
-	 * overridden toString to write out and return year and ACE Index.
-	 * You can include other variables if wanted.
+	 * overridden toString to write out and return all HurricaneRowData items.
 	 * 
 	 * @return the formated String containing a HurricaneRowData object's
-	 * year of record and the ACE index from that year.
+	 * data.
 	 */
 	// 
 	@Override
 	public String toString()
 	{
-		return String.format("Year: %d, ACE Index: %d\n", this.getYear(), this.getAceValue());
+		return String.format("%10d%11d%11d%11d%11d\n", 
+			this.year, this.aceValue, this.tropicalStorms, 
+			this.totalHurricanes, this.majorHurricanes);
 	}
 } // END HurricaneRowData class

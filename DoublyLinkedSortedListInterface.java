@@ -1,4 +1,3 @@
-
 public interface DoublyLinkedSortedListInterface
 {
 	//Return a reference to the first Node in the list

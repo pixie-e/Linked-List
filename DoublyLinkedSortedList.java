@@ -265,6 +265,47 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 		
 	}
 
+	//LAST MINUTE threw these extra credit starters in.
+	//contains does not work as far as i know
+	//it just returns false.
+	//probably wasn't worth submitting this.
+	/*
+	//Add the following method to DoublyLinkedSortedList.java:
+	// Post: Returns true if this linked list
+	// contains the given value.
+	//
+	
+	public boolean contains(HurricaneRowData value)
+	{
+		Node currentNode = head;
+		while (currentNode.hasNext())
+		{
+			if (currentNode.getData().equals(value))
+				return true;
+			currentNode = currentNode.getNext();
+		}
+		return false;
+	}
+
+	
+	//Add the following method to DoublyLinkedSortedList.java:
+	//Pre: This linked list contains the given value.
+	 //Post: Returns the node whose value
+	 //matches the given value. 
+	
+	public Node getByValue(HurricaneRowData value)
+	{
+		Node currentNode = head;
+		while (currentNode.hasNext())
+		{
+			if (currentNode.getData().equals(value))
+				return currentNode;
+			currentNode = currentNode.getNext();
+		}
+		return null;
+	}
+	*/
+
 	/* commented out if needed for testing again later
 	public void printNodesByNext()
 	{

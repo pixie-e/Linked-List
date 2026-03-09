@@ -25,7 +25,8 @@
  * Notes: The only thing that has changed in this version compared to the
  * original Assignment 3 is the formatting for the toString.
  */
-
+import java.util.Objects;
+import java.util.Comparator;
 
 public class HurricaneRowData
 {
@@ -98,4 +99,61 @@ public class HurricaneRowData
 			this.year, this.aceValue, this.tropicalStorms, 
 			this.totalHurricanes, this.majorHurricanes);
 	}
+
+
+//LAST MINUTE tried throwing these in, but i'm not so sure they work
+//apologies for the terrible commenting out; this really was last minute.
+/*	// Overriding equals() to compare two Person objects
+    @Override
+    public boolean equals(Object o) {
+    	//if Object o is null then return false
+    	if (o == null)
+    		return false;
+
+        // If the object is compared with itself then return true 
+        // (if Object o == this then return true)
+        if (o == this) 
+            return true;
+
+        //if Object o is not an instance of Person then return false
+        /* Check if o is an instance of Complex or not
+          "null instanceof [type]" also returns false */
+//        if (!(o instanceof HurricaneRowData)) {
+//            return false;
+//        }
+//
+//        
+//    	//NOTICE I copy-pasted this from my human resources assignment and
+//  	//only making necessary corrections
+//		//Declare a new variable of type HurricaneRowData (perhaps named d) 
+//		//	and assign it to Object o cast as type HurricaneRowData
+//		// (typecast o to Person so that we can compare data members)
+//		
+//		/*HurricaneRowData d = (HurricaneRowData) o;
+//
+//		/*if d has the same year, aceValue, tropicalStorms, 
+//			totalHurricanes, majorHurricanes as 
+//			this then return true
+//		*/
+//		return Integer.compare(this.year, d.year) == 0 && 
+//              Integer.compare(this.aceValue, d.aceValue) == 0 &&
+//               Integer.compare(this.tropicalStorms, d.tropicalStorms) == 0 &&
+//               Integer.compare(this.totalHurricanes, d.totalHurricanes) == 0 &&
+//               Integer.compare(this.majorHurricanes, d.totalHurricanes) == 0;
+//
+//	    } // END overridden equals method
+
+	   // /** Overridden hashCode method, recommended at the end of
+	   //  * <a href="https://www.geeksforgeeks.org/java/overriding-equals-method-in-java/">this website.</a>
+	    // * <a href="https://mkyong.com/java/java-how-to-overrides-equals-and-hashcode/">I also referenced this site to help set up the overridden hashCode.</a>
+	     //* <a href="https://www.w3schools.com/java/ref_string_compareto.asp">Reviewed String compareTo method.</a>
+	     //* 
+	     //* @return integer value of hashCode
+	     //*/
+//	    @Override
+//	    public int hashCode()
+//	    {
+//	        return Objects.hash(year, aceValue,tropicalStorms,totalHurricanes,majorHurricanes);
+//	    } // END overridden hashCode method
+
 } // END HurricaneRowData class

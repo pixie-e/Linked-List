@@ -122,5 +122,11 @@ public class Main
 		System.out.println("Is an ACE value of 0 correctly sorted to be the "+
 			"last item in the list? "+rowData.testLowestInsertion(lowAceData));
 		//System.out.println(rowData.getLast().getData());
+/*LAST MINUTE extra credit, not so sure that it actually works unfortunately.
+		HurricaneRowData sampleData = new HurricaneRowData(1950,243,13,11,8);
+		//should be true because this is the same data as the first row in file
+		System.out.println("Contains? "+rowData.contains(sampleData));
+*/
+
 	} // END main method
 } // END Main class

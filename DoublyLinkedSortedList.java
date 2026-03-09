@@ -110,21 +110,73 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 		{
 			head = toInsert;
 			tail = toInsert;
+			//System.out.println(toInsert.getData().getAceValue());
+			//System.out.print(head.getData());
+			length++;
 			return;
 		}
-		else {
-	        toInsert.setNext(head);
-	        head.setPrevious(toInsert);
-	        head = toInsert;
-	    }
-		/*else
+		// if toInsert has ACE larger than the head's ACE, place toInsert as new head
+		else if (toInsert.getData().getAceValue() > head.getData().getAceValue())
 		{
-			Node lastNode = getLast();
-			
-			toInsert.setPrevious(lastNode);
-			lastNode.setNext(toInsert);
+			head.setPrevious(toInsert);
+			toInsert.setNext(head);
+			head = toInsert;
+			length++;
+	       
+	        //System.out.print(head.getData());
+	        return;
+	        
+	    }
+	    //CASE that head/tail is only item in list, and toInsert was
+	    //already checked and failed for greater ACE, make toInsert as new tail
+	    else if (!head.hasNext())
+	    {
+	    	head.setNext(toInsert);
+	    	toInsert.setPrevious(head);
+	    	//System.out.println(toInsert.getData());
+	    	tail = toInsert;
+	    	length++;
+	    	return;
+	    }
+	    Node currentNode = head;
+	    while (currentNode.hasNext())
+	    {
+	    	//System.out.println("loop entered");
+	    	//currentNode = currentNode.getNext();
+	    	if (toInsert.getData().getAceValue() == currentNode.getData().getAceValue())
+	    	{
+	    		//should be safe as loop would not enter if there were no next
+	    		Node afterNode = currentNode.getNext();
+	    		toInsert.setNext(afterNode);
+	    		toInsert.setPrevious(currentNode);
+	    		afterNode.setPrevious(toInsert);
+	    		currentNode.setNext(toInsert);
+	    		length++;
+	    		return;
+	    	}
+	    	else if (toInsert.getData().getAceValue() > currentNode.getData().getAceValue())
+	    	{	
+	    		Node beforeNode = currentNode.getPrevious();
+	    		toInsert.setPrevious(beforeNode);
+	    		toInsert.setNext(currentNode);
+	    		beforeNode.setNext(toInsert);
+	    		currentNode.setPrevious(toInsert);
+	    		length++;
+	    		//System.out.println("Loop + "+currentNode.getData());
+	    		//currentNode = tail; //skip to tail to exit loop
+	    							//(tail has no next)
+	    		return;
+	    	}
+	    	currentNode = currentNode.getNext();
+	    }
+	    tail.setNext(toInsert);
+	    toInsert.setPrevious(tail);
+	    tail = toInsert;
+	    length++;
+	   // System.out.println(tail.getData());
 
-		}*/
+	    
+		
 		//incomplete pseudocode. You need to finish it and make sure it is solid
 		// DO NOT ASSUME THIS IS CORRECT YET
 		//compare ace of newValue to ace of FIRST IN LIST
@@ -202,4 +254,24 @@ public class DoublyLinkedSortedList implements DoublyLinkedSortedListInterface
 		return 1 + next.getLength();
 	}
 	*/
+
+	public void printNodesByNext()
+	{
+		Node printNode = head;
+	    for (int i=0; i<length; i++)
+	    {
+	    	System.out.println(printNode.getData());
+	    	printNode = printNode.getNext();
+	    }
+	}
+	public void printNodesByPrevious()
+	{
+		Node printNode = tail;
+	    for (int i=0; i<length; i++)
+	    {
+	    	System.out.println(printNode.getData());
+	    	printNode = printNode.getPrevious();
+	    }
+	}
+
 } // END DoublyLinkedSortedList class

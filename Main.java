@@ -81,25 +81,11 @@ public class Main
 		*/
 		File hurricaneData = new File("ace.csv");
 		
-		//call
 		rowData.readData(hurricaneData);
-
-		/*
-		// try to write the file data into new objects for each row of data
-		try 
-		{
-			
-			
-		}
-		// catch IOException for reading the file
-		catch (IOException e)
-		{
-			System.out.println("ERROR:something went wrong when reading file");
-			System.out.println(e);
-			e.printStackTrace();
-			System.exit(1);
-		}
-		*/
+		System.out.println("BY NEXT:");
+		rowData.printNodesByNext();
+		//System.out.println("\nBY PREVIOUS");
+		//rowData.printNodesByPrevious();
 
 		/* try to write the max ACE index value and its year out to a text file
 		try 
